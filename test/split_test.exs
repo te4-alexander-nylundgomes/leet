@@ -2,35 +2,27 @@ defmodule SplitTest do
   use ExUnit.Case
   doctest Split
 
-  test "greets the world" do
-    assert Split.hello() == :world
-  end
-
-  #test "splits the string with space delimitter" do
-  #  assert Split.split('Hello World', ' ') == ["Hello", "World"]
-  #end
-
-  test "splits number" do
-    assert Split.split([1, 2, 3, 4, 5], 3) == [[1, 2], [4, 5]]
-  end
-
-  test "splits charlist" do
-    assert Split.split('Hello World', ?\s) == ['Hello', 'World']
+  test "splits the string with space delimitter" do
+    assert Split.split("Hello World", " ") == ["Hello", "World"]
   end
 
   test "doesn't crash when no occurences of delimitter" do
-    assert Split.split([1, 2, 3], 4) == [[1, 2, 3]]
+    assert Split.split("ABC", "D") == ["ABC"]
   end
 
-  test "splits charlist with multiple delimitters" do
-    assert Split.split([1, 2, 3, 4, 5, 6, 4, 7, 8], 4) == [[1, 2, 3], [5, 6], [7, 8]]
+  test "splits string with multiple delimitters" do
+    assert Split.split("I have many spaces", " ") == ["I", "have", "many", "spaces"]
   end
 
-  test "splits charlist where first element is delimitter" do
-    assert Split.split([1], 1) == [[],[]]
+  test "splits string where first element is delimitter" do
+    assert Split.split(" ", " ") == ["",""]
   end
 
-  test "splits charlist is empty" do
-    assert Split.split([], 1) == [[]]
+  test "splits empty string" do
+    assert Split.split("", " ") == [""]
+  end
+
+  test "splits string with utf8 characters" do
+    assert Split.split("i löve sweden", "ö") == ["i l", "ve sweden"]
   end
 end

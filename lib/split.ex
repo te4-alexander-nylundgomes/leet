@@ -1,32 +1,14 @@
 defmodule Split do
-  @moduledoc """
-  Documentation for `Split`.
-  """
 
-  @doc """
-  Hello world.
+  def split(str, <<del::utf8>>), do: to_charlist(str) |> _split(del)
 
-  ## Examples
+  defp _split(list, del), do: _split(list, [], del)
+  defp _split(tail, [head | front], del) when del == head,
+    do: as_str_arr(front) ++ _split(tail, del)
 
-      iex> Split.hello()
-      :world
+  defp _split([], front, _), do: as_str_arr(front)
+  defp _split([head | tail], front, del), do: _split(tail, [head | front], del)
 
-  """
-  def hello do
-    :world
-  end
-
-  def concat([], list), do: list
-  def concat([value], list), do: [value | list]
-  def concat([head | tail], list) do
-    [head | concat(tail, list)]
-  end
-
-
-  def split(list, char), do: _split(list, [], char)
-  defp _split(tail, [head | front], char) when char == head, do: concat([Enum.reverse(front)], split(tail, char))
-  defp _split([], front, _), do: [Enum.reverse(front)]
-
-  defp _split([head | tail], front, char), do: _split(tail, [head | front], char)
+  defp as_str_arr(list), do: [to_string(Enum.reverse(list))]
 
 end
